@@ -1,12 +1,12 @@
 //
 //  Haptic.swift
+//  PreviewDebugger
 //
-//
-//  Created by user on 27.04.2024.
+//  Created by Eugene Kovs on 27.04.2024.
+//  https://github.com/kovs705
 //
 
-import Foundation
-import CoreHaptics
+import SwiftUI
 
 struct Haptic {
     
