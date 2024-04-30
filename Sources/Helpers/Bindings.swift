@@ -28,3 +28,10 @@ extension Binding {
         })
     }
 }
+
+extension Binding {
+    init(wrappedValue: Value) {
+        var value = wrappedValue
+        self.init(get: { value }, set: { value = $0 })
+    }
+}
