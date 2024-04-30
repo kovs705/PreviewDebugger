@@ -29,6 +29,11 @@ struct ModesView: View {
         VStack {
             themeToggler
             localesSelector
+            sizeSlider
+            directionToggle
+            accessibilityToggler
+            invertedColorsToggle
+            colorBlindnessToggler
         }
     }
     
@@ -50,6 +55,34 @@ struct ModesView: View {
                 }
             }.pickerStyle(.segmented)
         }
+    }
+    
+    @ViewBuilder var sizeSlider: some View {
+        HStack {
+            Text("**Size slider coming soon**")
+            Spacer()
+        }
+    }
+    
+    @ViewBuilder var directionToggle: some View {
+        Toggle("Layout direction", isOn: params.layoutDirection.map(toValue: { $0 == .rightToLeft },
+                                                                    fromValue: { $0 ? .rightToLeft : .leftToRight }))
+    }
+    
+    @ViewBuilder var accessibilityToggler: some View {
+        Toggle("Accessibility", isOn: params.accessibilityEnabled)
+    }
+    
+    @ViewBuilder var reduceMotionToggler: some View {
+        Toggle("Reduce motion", isOn: params.accessibilityReduceMotionEnabled)
+    }
+    
+    @ViewBuilder var invertedColorsToggle: some View {
+        Toggle("Inverted colors", isOn: params.accessibilityInvertedColorsEnabled)
+    }
+    
+    @ViewBuilder var colorBlindnessToggler: some View {
+        Toggle("Color blindness", isOn: params.accessibilityDifferentiateWithoutColorEnabled)
     }
     
     
