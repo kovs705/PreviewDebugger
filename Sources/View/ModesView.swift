@@ -34,6 +34,7 @@ struct ModesView: View {
             accessibilityToggler
             invertedColorsToggle
             colorBlindnessToggler
+            screenshotter
         }
     }
     
@@ -83,6 +84,16 @@ struct ModesView: View {
     
     @ViewBuilder var colorBlindnessToggler: some View {
         Toggle("Color blindness", isOn: params.accessibilityDifferentiateWithoutColorEnabled)
+    }
+    
+    @ViewBuilder var screenshotter: some View {
+        HStack {
+            Button(action: {
+                
+            }, label: {
+                Text("Take a screenshot")
+            })
+        }
     }
     
     
