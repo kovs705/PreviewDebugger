@@ -111,10 +111,7 @@ struct ModesView: View {
                                colorScheme: Binding<ColorScheme>(wrappedValue: .light),
                                textSize: Binding<ContentSizeCategory>(wrappedValue: .medium),
                                layoutDirection: Binding<LayoutDirection>(wrappedValue: .leftToRight),
-                               accessibilityEnabled: Binding<Bool>(wrappedValue: false),
-                               accessibilityReduceMotionEnabled: Binding<Bool>(wrappedValue: false),
-                               accessibilityInvertedColorsEnabled: Binding<Bool>(wrappedValue: false),
-                               accessibilityDifferentiateWithoutColorEnabled: Binding<Bool>(wrappedValue: false)),
+                               accessibilityEnabled: Binding<Bool>(wrappedValue: false)),
               isHidden: Binding<Bool>(wrappedValue: false))
 }
 #endif

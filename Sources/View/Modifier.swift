@@ -21,6 +21,7 @@ struct PreviewModifier: ViewModifier {
 //    @Environment(\.accessibilityDifferentiateWithoutColor) private var colorBlindnessEnabled: Bool
 //    @Environment(\.accessibilityReduceTransparency) private var reducedTransparencyEnabled: Bool
     
+    @State private var isHidden = false
     @State private var parameters = EnvironmentValues()
     let onChange: ((EnvironmentValues.Diff) -> Void)?
     
@@ -35,5 +36,45 @@ struct PreviewModifier: ViewModifier {
 //            .environment(\.accessibilityInvertColors, parameters.accessibilityInvertColors)
 //            .environment(\.accessibilityDifferentiateWithoutColor, parameters.accessibilityDifferentiateWithoutColor)
 //            .environment(\.accessibilityReduceTransparency, parameters.accessibilityReduceTransparency)
+            .onAppear {
+                updateValuesFromEnvironment()
+            }
+    }
+    
+    private func updateValuesFromEnvironment() {
+        parameters.colorScheme = colorScheme
+        parameters.sizeCategory = sizeCategory
+        parameters.layoutDirection = layoutDirection
+        parameters.accessibilityEnabled = accessibilityEnabled
+    }
+    
+    private func modeParameters() -> ModeParameters {
+        return ModeParameters(locales: [],
+                              locale: $parameters.locale.onChange({ _ in
+            self.onChange?(.locale)
+        }),
+                              colorScheme: $parameters.colorScheme.onChange({ _ in
+            self.onChange?(.colorScheme)
+        }),
+                              textSize: $parameters.sizeCategory.onChange({ _ in
+            self.onChange?(.sizeCategory)
+        }),
+                              layoutDirection: $parameters.layoutDirection.onChange({ _ in
+            self.onChange?(.layoutDirection)
+        }),
+                              accessibilityEnabled: $parameters.accessibilityEnabled.onChange({ _ in
+            self.onChange?(.accessibilityEnabled)
+        }))
+    }
+    
+    @ViewBuilder private func overlayIfRequired<Content: View>(for content: Content) -> some View {
+        Group {
+#if DEBUG
+            content
+                .overlay(ModesView(params: modeParameters(), isHidden: $isHidden))
+#else
+            content
+#endif
+        }
     }
 }
