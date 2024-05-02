@@ -16,10 +16,6 @@ struct PreviewModifier: ViewModifier {
     @Environment(\.layoutDirection) private var layoutDirection: LayoutDirection
     // Accessibility
     @Environment(\.accessibilityEnabled) private var accessibilityEnabled: Bool
-//    @Environment(\.accessibilityReduceMotion) private var reduceMotionEnabled: Bool
-//    @Environment(\.accessibilityInvertColors) private var invertedColorsEnabled: Bool
-//    @Environment(\.accessibilityDifferentiateWithoutColor) private var colorBlindnessEnabled: Bool
-//    @Environment(\.accessibilityReduceTransparency) private var reducedTransparencyEnabled: Bool
     
     @State private var isHidden = false
     @State private var parameters = EnvironmentValues()
@@ -31,11 +27,11 @@ struct PreviewModifier: ViewModifier {
             .environment(\.sizeCategory, parameters.sizeCategory)
             .environment(\.layoutDirection, parameters.layoutDirection)
         
+            .overlay(alignment: isHidden ? .bottomTrailing : .center, content: {
+                overlayIfRequired(for: content)
+            })
+        
             .environment(\.accessibilityEnabled, parameters.accessibilityEnabled)
-//            .environment(\.accessibilityReduceMotion, parameters.accessibilityReduceMotion)
-//            .environment(\.accessibilityInvertColors, parameters.accessibilityInvertColors)
-//            .environment(\.accessibilityDifferentiateWithoutColor, parameters.accessibilityDifferentiateWithoutColor)
-//            .environment(\.accessibilityReduceTransparency, parameters.accessibilityReduceTransparency)
             .onAppear {
                 updateValuesFromEnvironment()
             }
@@ -67,7 +63,7 @@ struct PreviewModifier: ViewModifier {
         }))
     }
     
-    @ViewBuilder private func overlayIfRequired<Content: View>(for content: Content) -> some View {
+    private func overlayIfRequired<Content: View>(for content: Content) -> some View {
         Group {
 #if DEBUG
             content
