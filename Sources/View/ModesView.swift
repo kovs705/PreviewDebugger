@@ -32,16 +32,16 @@ struct ModesView: View {
             sizeSlider
             directionToggle
             accessibilityToggler
-            invertedColorsToggle
-            colorBlindnessToggler
+//            invertedColorsToggle
+//            colorBlindnessToggler
             screenshotter
         }
     }
     
     @ViewBuilder var themeToggler: some View {
         Toggle("Light or dark theme", isOn: params.colorScheme.map(toValue:
-                                                        { $0 == .dark },
-                                                      fromValue: { $0 ? .dark : .light }))
+                                                                    { $0 == .dark },
+                                                                   fromValue: { $0 ? .dark : .light }))
     }
     
     @ViewBuilder var localesSelector: some View {
@@ -74,17 +74,17 @@ struct ModesView: View {
         Toggle("Accessibility", isOn: params.accessibilityEnabled)
     }
     
-    @ViewBuilder var reduceMotionToggler: some View {
-        Toggle("Reduce motion", isOn: params.accessibilityReduceMotionEnabled)
-    }
-    
-    @ViewBuilder var invertedColorsToggle: some View {
-        Toggle("Inverted colors", isOn: params.accessibilityInvertedColorsEnabled)
-    }
-    
-    @ViewBuilder var colorBlindnessToggler: some View {
-        Toggle("Color blindness", isOn: params.accessibilityDifferentiateWithoutColorEnabled)
-    }
+//    @ViewBuilder var reduceMotionToggler: some View {
+//        Toggle("Reduce motion", isOn: params.accessibilityReduceMotionEnabled)
+//    }
+//    
+//    @ViewBuilder var invertedColorsToggle: some View {
+//        Toggle("Inverted colors", isOn: params.accessibilityInvertedColorsEnabled)
+//    }
+//    
+//    @ViewBuilder var colorBlindnessToggler: some View {
+//        Toggle("Color blindness", isOn: params.accessibilityDifferentiateWithoutColorEnabled)
+//    }
     
     @ViewBuilder var screenshotter: some View {
         HStack {
@@ -95,7 +95,6 @@ struct ModesView: View {
             })
         }
     }
-    
     
 }
 
@@ -119,5 +118,3 @@ struct ModesView: View {
               isHidden: Binding<Bool>(wrappedValue: false))
 }
 #endif
-
-
