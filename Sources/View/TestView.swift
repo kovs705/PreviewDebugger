@@ -14,7 +14,8 @@ struct SwiftUIView: View {
             Text("Hello, World!")
             Text("This is a test view")
         }
-        .frame(maxWidth: .infinity)
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(uiColor: .systemBackground))
     }
 }
 

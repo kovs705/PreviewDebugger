@@ -12,6 +12,7 @@ struct ModesView: View {
     
     var params: ModeParameters
     @Binding var isHidden: Bool
+    @Namespace var nspace
     
     // MARK: - Body
     var body: some View {
@@ -31,8 +32,15 @@ struct ModesView: View {
     // MARK: - Components
     @ViewBuilder var innerContent: some View {
         if isHidden {
-            Image(systemName: "chart.bar.doc.horizontal")
-                .font(.body)
+            Button {
+                withAnimation(.easeInOut) {
+                    isHidden = false
+                }
+            } label: {
+                Image(systemName: "chart.bar.doc.horizontal")
+                    .font(.body)
+            }
+            .matchedGeometryEffect(id: "geoeffect1", in: nspace)
         } else {
             VStack {
                 hideButton
@@ -45,6 +53,7 @@ struct ModesView: View {
                 //            colorBlindnessToggler
                 screenshotter
             }
+            .matchedGeometryEffect(id: "geoeffect1", in: nspace)
         }
     }
     
@@ -55,9 +64,16 @@ struct ModesView: View {
             
             Spacer()
             
-            Image(systemName: "xmark")
-                .padding(5)
-                .background(Circle().fill(Color(uiColor: .systemBackground)))
+            
+            Button {
+                withAnimation(.easeInOut) {
+                    isHidden = true
+                }
+            } label: {
+                Image(systemName: "xmark")
+                    .padding(5)
+                    .background(Circle().fill(Color(uiColor: .systemBackground)))
+            }
         }
     }
     
