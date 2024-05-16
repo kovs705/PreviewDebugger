@@ -24,10 +24,6 @@ struct ModesView: View {
                         .ultraThinMaterial
                     )
                     .clipShape(.rect(cornerRadius: 15))
-//                    .overlay {
-//                        RoundedRectangle(cornerRadius: 15)
-//                            .fill()
-//                    }
             )
             .padding(50)
     }
@@ -39,6 +35,7 @@ struct ModesView: View {
                 .font(.body)
         } else {
             VStack {
+                hideButton
                 themeToggler
                 localesSelector
                 sizeSlider
@@ -48,6 +45,19 @@ struct ModesView: View {
                 //            colorBlindnessToggler
                 screenshotter
             }
+        }
+    }
+    
+    @ViewBuilder var hideButton: some View {
+        HStack {
+            Text("UI Helper")
+                .bold()
+            
+            Spacer()
+            
+            Image(systemName: "xmark")
+                .padding(5)
+                .background(Circle().fill(Color(uiColor: .systemBackground)))
         }
     }
     
