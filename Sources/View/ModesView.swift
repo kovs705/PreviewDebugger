@@ -20,21 +20,34 @@ struct ModesView: View {
             .background(
                 RoundedRectangle(cornerRadius: 15)
                     .stroke(Color.gray.opacity(0.5), lineWidth: 0.5)
+                    .background(
+                        .ultraThinMaterial
+                    )
+                    .clipShape(.rect(cornerRadius: 15))
+//                    .overlay {
+//                        RoundedRectangle(cornerRadius: 15)
+//                            .fill()
+//                    }
             )
-            .padding(70)
+            .padding(50)
     }
     
     // MARK: - Components
     @ViewBuilder var innerContent: some View {
-        VStack {
-            themeToggler
-            localesSelector
-            sizeSlider
-            directionToggle
-            accessibilityToggler
-//            invertedColorsToggle
-//            colorBlindnessToggler
-            screenshotter
+        if isHidden {
+            Image(systemName: "chart.bar.doc.horizontal")
+                .font(.body)
+        } else {
+            VStack {
+                themeToggler
+                localesSelector
+                sizeSlider
+                directionToggle
+                accessibilityToggler
+                //            invertedColorsToggle
+                //            colorBlindnessToggler
+                screenshotter
+            }
         }
     }
     
@@ -73,18 +86,6 @@ struct ModesView: View {
     @ViewBuilder var accessibilityToggler: some View {
         Toggle("Accessibility", isOn: params.accessibilityEnabled)
     }
-    
-//    @ViewBuilder var reduceMotionToggler: some View {
-//        Toggle("Reduce motion", isOn: params.accessibilityReduceMotionEnabled)
-//    }
-//    
-//    @ViewBuilder var invertedColorsToggle: some View {
-//        Toggle("Inverted colors", isOn: params.accessibilityInvertedColorsEnabled)
-//    }
-//    
-//    @ViewBuilder var colorBlindnessToggler: some View {
-//        Toggle("Color blindness", isOn: params.accessibilityDifferentiateWithoutColorEnabled)
-//    }
     
     @ViewBuilder var screenshotter: some View {
         HStack {
