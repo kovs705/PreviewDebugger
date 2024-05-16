@@ -17,7 +17,7 @@ struct PreviewModifier: ViewModifier {
     // Accessibility
     @Environment(\.accessibilityEnabled) private var accessibilityEnabled: Bool
     
-    @State private var isHidden = false
+    @State private var isHidden = true
     @State private var parameters = EnvironmentValues()
     let onChange: ((EnvironmentValues.Diff) -> Void)?
     

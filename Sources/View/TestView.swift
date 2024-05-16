@@ -10,12 +10,24 @@ import SwiftUI
 
 struct SwiftUIView: View {
     var body: some View {
-        VStack {
-            Text("Hello, World!")
-            Text("This is a test view")
+        navigationWrapper {
+            ScrollView {
+                Text("This is a test view screen")
+            }
+            .navigationTitle("Test view title")
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(uiColor: .systemBackground))
+    }
+    
+    @ViewBuilder func navigationWrapper<Content: View>(_ content: @escaping () -> Content) -> some View {
+        if #available(iOS 16.0, *) {
+            NavigationStack {
+                content()
+            }
+        } else {
+            NavigationView {
+                content()
+            }
+        }
     }
 }
 
