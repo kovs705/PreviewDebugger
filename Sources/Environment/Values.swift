@@ -23,11 +23,6 @@ public extension EnvironmentValues {
         public static let layoutDirection = Diff(rawValue: 1 << 3)
         
         public static let accessibilityEnabled = Diff(rawValue: 1 << 4)
-//        public static let accessibilityReduceMotionEnabled = Diff(rawValue: 1 << 5)
-//        public static let accessibilityInvertedColorsEnabled = Diff(rawValue: 1 << 6)
-//        public static let accessibilityDifferentiateWithoutColorEnabled = Diff(rawValue: 1 << 7)
-//        public static let reducedTransparencyEnabled = Diff(rawValue: 1 << 8)
-        
     }
 }
 

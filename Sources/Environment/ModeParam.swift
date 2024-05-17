@@ -23,7 +23,4 @@ struct ModeParameters {
     
     // Accessibility
     let accessibilityEnabled: Binding<Bool>
-//    let accessibilityReduceMotionEnabled: Binding<Bool>
-//    let accessibilityInvertedColorsEnabled: Binding<Bool>
-//    let accessibilityDifferentiateWithoutColorEnabled: Binding<Bool>
 }
