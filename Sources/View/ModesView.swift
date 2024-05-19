@@ -45,8 +45,8 @@ struct ModesView: View {
             VStack {
                 hideButton
                 themeToggler
-                localesSelector
-                sizeSlider
+//                localesSelector
+//                sizeSlider
                 directionToggle
                 accessibilityToggler
                 //            invertedColorsToggle
