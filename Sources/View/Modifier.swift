@@ -8,7 +8,7 @@
 
 import SwiftUI
 
-struct PreviewModifier: ViewModifier {
+public struct PreviewModifier: ViewModifier {
     
     // UI
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
@@ -21,7 +21,7 @@ struct PreviewModifier: ViewModifier {
     @State private var parameters = EnvironmentValues()
     let onChange: ((EnvironmentValues.Diff) -> Void)?
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .environment(\.colorScheme, parameters.colorScheme)
             .environment(\.sizeCategory, parameters.sizeCategory)
