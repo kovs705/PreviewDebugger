@@ -17,22 +17,6 @@ protocol DynamicSizeProtocol: Equatable {
     var name: String { get }
 }
 
-func getDynamicSizeType() -> any DynamicSizeProtocol.Type {
-    if #available(iOS 17, *) {
-        return DynamicTypeSize.self
-    } else {
-        return ContentSizeCategory.self
-    }
-}
-
-func createDynamicSizeInstance(floatValue: CGFloat) -> any DynamicSizeProtocol {
-    if #available(iOS 17, *) {
-        return DynamicTypeSize(floatValue: floatValue)
-    } else {
-        return ContentSizeCategory(floatValue: floatValue)
-    }
-}
-
 // MARK: - Protocol extension
 extension DynamicSizeProtocol {
     

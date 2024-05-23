@@ -64,7 +64,6 @@ struct ModesView: View {
             
             Spacer()
             
-            
             Button {
                 withAnimation(.easeInOut) {
                     isHidden = true
@@ -77,12 +76,14 @@ struct ModesView: View {
         }
     }
     
+    // MARK: - Theme
     @ViewBuilder var themeToggler: some View {
         Toggle("Light or dark theme", isOn: params.colorScheme.map(toValue:
                                                                     { $0 == .dark },
                                                                    fromValue: { $0 ? .dark : .light }))
     }
     
+    // MARK: - Locales
     @ViewBuilder var localesSelector: some View {
         HStack {
             Text("Locale")
@@ -97,25 +98,29 @@ struct ModesView: View {
         }
     }
     
+    // MARK: - Size
     @ViewBuilder var sizeSlider: some View {
         HStack {
             Slider(value: params.textSize.map(toValue: { $0.floatValue },
                                               fromValue: { DynamicTypeSize(floatValue: $0) }),
                    in: 0 ... 1,
-                   step: getDynamicSizeType().stride)
+                   step: DynamicTypeSize.stride)
             Spacer()
         }
     }
     
+    // MARK: - Direction
     @ViewBuilder var directionToggle: some View {
         Toggle("Layout direction", isOn: params.layoutDirection.map(toValue: { $0 == .rightToLeft },
                                                                     fromValue: { $0 ? .rightToLeft : .leftToRight }))
     }
     
+    // MARK: - Accessibility
     @ViewBuilder var accessibilityToggler: some View {
         Toggle("Accessibility", isOn: params.accessibilityEnabled)
     }
     
+    // MARK: - Screenshot
     @ViewBuilder var screenshotter: some View {
         HStack {
             Button(action: {

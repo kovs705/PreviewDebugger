@@ -26,12 +26,12 @@ public struct PreviewModifier: ViewModifier {
             .environment(\.colorScheme, parameters.colorScheme)
             .environment(\.dynamicTypeSize, parameters.dynamicTypeSize)
             .environment(\.layoutDirection, parameters.layoutDirection)
-#if DEBUG
+            .environment(\.accessibilityEnabled, parameters.accessibilityEnabled)
+        
             .overlay(alignment: isHidden ? .bottomTrailing : .center, content: {
                 ModesView(params: modeParameters(), isHidden: $isHidden)
             })
-#endif
-            .environment(\.accessibilityEnabled, parameters.accessibilityEnabled)
+        
             .onAppear {
                 updateValuesFromEnvironment()
             }
@@ -63,17 +63,4 @@ public struct PreviewModifier: ViewModifier {
         }))
     }
     
-//    private func overlayIfRequired<Content: View>(for content: Content) -> some View {
-//        Group {
-//#if DEBUG
-//            content
-//                .overlay(alignment: .bottomTrailing, content: {
-//                    ModesView(params: modeParameters(), isHidden: $isHidden)
-//                })
-//                .frame(maxWidth: .infinity, maxHeight: .infinity)
-//#else
-//            content
-//#endif
-//        }
-//    }
 }
