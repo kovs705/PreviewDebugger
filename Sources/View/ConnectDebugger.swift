@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ConnectDebugger.swift
 //  PreviewDebugger
 //
 //  Created by Eugene Kovs on 19.05.2024.

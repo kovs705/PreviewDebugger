@@ -46,7 +46,7 @@ struct ModesView: View {
                 hideButton
                 themeToggler
 //                localesSelector
-//                sizeSlider
+                sizeSlider
                 directionToggle
                 accessibilityToggler
                 //            invertedColorsToggle
@@ -99,7 +99,10 @@ struct ModesView: View {
     
     @ViewBuilder var sizeSlider: some View {
         HStack {
-            Text("**Size slider coming soon**")
+            Slider(value: params.textSize.map(toValue: { $0.floatValue },
+                                              fromValue: { ContentSizeCategory(floatValue: $0) }),
+                   in: 0 ... 1,
+                   step: ContentSizeCategory.stride)
             Spacer()
         }
     }
