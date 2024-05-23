@@ -18,7 +18,7 @@ struct ModeParameters {
     
     // UI
     let colorScheme: Binding<ColorScheme>
-    let textSize: Binding<ContentSizeCategory>
+    let textSize: Binding<DynamicTypeSize>
     let layoutDirection: Binding<LayoutDirection>
     
     // Accessibility

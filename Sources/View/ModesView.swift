@@ -100,9 +100,9 @@ struct ModesView: View {
     @ViewBuilder var sizeSlider: some View {
         HStack {
             Slider(value: params.textSize.map(toValue: { $0.floatValue },
-                                              fromValue: { ContentSizeCategory(floatValue: $0) }),
+                                              fromValue: { DynamicTypeSize(floatValue: $0) }),
                    in: 0 ... 1,
-                   step: ContentSizeCategory.stride)
+                   step: getDynamicSizeType().stride)
             Spacer()
         }
     }
@@ -139,7 +139,7 @@ struct ModesView: View {
                 ],
                                locale: Binding<Locale>(wrappedValue: Locale(identifier: "en")),
                                colorScheme: Binding<ColorScheme>(wrappedValue: .light),
-                               textSize: Binding<ContentSizeCategory>(wrappedValue: .medium),
+                               textSize: Binding<DynamicTypeSize>(wrappedValue: .medium),
                                layoutDirection: Binding<LayoutDirection>(wrappedValue: .leftToRight),
                                accessibilityEnabled: Binding<Bool>(wrappedValue: false)),
               isHidden: Binding<Bool>(wrappedValue: false))

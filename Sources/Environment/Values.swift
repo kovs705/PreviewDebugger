@@ -19,7 +19,7 @@ public extension EnvironmentValues {
 
         public static let locale = Diff(rawValue: 1 << 0)
         public static let colorScheme = Diff(rawValue: 1 << 1)
-        public static let sizeCategory = Diff(rawValue: 1 << 2)
+        public static let dynamicSize = Diff(rawValue: 1 << 2)
         public static let layoutDirection = Diff(rawValue: 1 << 3)
         
         public static let accessibilityEnabled = Diff(rawValue: 1 << 4)

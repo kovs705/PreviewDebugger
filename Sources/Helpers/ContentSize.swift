@@ -12,12 +12,33 @@ import SwiftUI
 protocol DynamicSizeProtocol: Equatable {
     static var allCases: [Self] { get }
     static var cachedStride: CGFloat { get }
+    static var stride: CGFloat { get }
     
     var name: String { get }
 }
 
+func getDynamicSizeType() -> any DynamicSizeProtocol.Type {
+    if #available(iOS 17, *) {
+        return DynamicTypeSize.self
+    } else {
+        return ContentSizeCategory.self
+    }
+}
+
+func createDynamicSizeInstance(floatValue: CGFloat) -> any DynamicSizeProtocol {
+    if #available(iOS 17, *) {
+        return DynamicTypeSize(floatValue: floatValue)
+    } else {
+        return ContentSizeCategory(floatValue: floatValue)
+    }
+}
+
 // MARK: - Protocol extension
 extension DynamicSizeProtocol {
+    
+    static var cachedStride: CGFloat {
+        return 1 / CGFloat(allCases.count - 1)
+    }
     
     static var stride: CGFloat {
         return cachedStride
@@ -35,22 +56,14 @@ extension DynamicSizeProtocol {
         return Self.allCases[index]
     }
     
+    init(floatValue: CGFloat) {
+        self = Self.from(float: floatValue)
+    }
+    
 }
 
 // MARK: - ContentSizeCategory
 extension ContentSizeCategory: DynamicSizeProtocol {
-    static var cachedStride: CGFloat {
-        return 1 / CGFloat(allCases.count - 1)
-    }
-    
-    var floatValue: CGFloat {
-        let index = CGFloat(ContentSizeCategory.allCases.firstIndex(of: self) ?? 0)
-        return index * ContentSizeCategory.stride
-    }
-    
-    init(floatValue: CGFloat) {
-        self = Self.from(float: floatValue)
-    }
     
     var name: String {
         switch self {
@@ -69,13 +82,11 @@ extension ContentSizeCategory: DynamicSizeProtocol {
         @unknown default: return "Unknown"
         }
     }
+    
 }
 
 // MARK: - DynamicTypeSize
 extension DynamicTypeSize: DynamicSizeProtocol {
-    static var cachedStride: CGFloat {
-        return 1 / CGFloat(allCases.count - 1)
-    }
     
     var name: String {
         switch self {
@@ -94,4 +105,5 @@ extension DynamicTypeSize: DynamicSizeProtocol {
         @unknown default: return "Unknown"
         }
     }
+    
 }

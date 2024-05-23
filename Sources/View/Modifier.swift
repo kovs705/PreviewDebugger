@@ -12,7 +12,7 @@ public struct PreviewModifier: ViewModifier {
     
     // UI
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
-    @Environment(\.sizeCategory) private var sizeCategory: ContentSizeCategory
+    @Environment(\.dynamicTypeSize) private var dynamicSize: DynamicTypeSize
     @Environment(\.layoutDirection) private var layoutDirection: LayoutDirection
     // Accessibility
     @Environment(\.accessibilityEnabled) private var accessibilityEnabled: Bool
@@ -24,7 +24,7 @@ public struct PreviewModifier: ViewModifier {
     public func body(content: Content) -> some View {
         content
             .environment(\.colorScheme, parameters.colorScheme)
-            .environment(\.sizeCategory, parameters.sizeCategory)
+            .environment(\.dynamicTypeSize, parameters.dynamicTypeSize)
             .environment(\.layoutDirection, parameters.layoutDirection)
 #if DEBUG
             .overlay(alignment: isHidden ? .bottomTrailing : .center, content: {
@@ -39,7 +39,7 @@ public struct PreviewModifier: ViewModifier {
     
     private func updateValuesFromEnvironment() {
         parameters.colorScheme = colorScheme
-        parameters.sizeCategory = sizeCategory
+        parameters.dynamicTypeSize = dynamicSize
         parameters.layoutDirection = layoutDirection
         parameters.accessibilityEnabled = accessibilityEnabled
     }
@@ -52,8 +52,8 @@ public struct PreviewModifier: ViewModifier {
                               colorScheme: $parameters.colorScheme.onChange({ _ in
             self.onChange?(.colorScheme)
         }),
-                              textSize: $parameters.sizeCategory.onChange({ _ in
-            self.onChange?(.sizeCategory)
+                              textSize: $parameters.dynamicTypeSize.onChange({ _ in
+            self.onChange?(.dynamicSize)
         }),
                               layoutDirection: $parameters.layoutDirection.onChange({ _ in
             self.onChange?(.layoutDirection)
