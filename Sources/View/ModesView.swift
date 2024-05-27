@@ -100,12 +100,23 @@ struct ModesView: View {
     
     // MARK: - Size
     @ViewBuilder var sizeSlider: some View {
+        VStack(spacing: 5) {
+            HStack {
+                Text("Font size")
+                Slider(value: params.textSize.map(toValue: { $0.floatValue },
+                                                  fromValue: { DynamicTypeSize(floatValue: $0) }),
+                       in: 0 ... 1,
+                       step: DynamicTypeSize.stride)
+            }
+            textSizeText
+        }
+    }
+    
+    @ViewBuilder var textSizeText: some View {
         HStack {
-            Slider(value: params.textSize.map(toValue: { $0.floatValue },
-                                              fromValue: { DynamicTypeSize(floatValue: $0) }),
-                   in: 0 ... 1,
-                   step: DynamicTypeSize.stride)
             Spacer()
+            Text(params.textSize.wrappedValue.name)
+                .frame(alignment: .trailing)
         }
     }
     
