@@ -31,9 +31,9 @@ struct SwiftUIView: View {
     }
 }
 
+#if DEBUG
 #Preview {
     SwiftUIView()
-        .modifier(PreviewModifier(onChange: { _ in
-            //
-        }))
+        .connectDebugger()
 }
+#endif

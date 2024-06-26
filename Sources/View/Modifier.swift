@@ -30,6 +30,7 @@ public struct PreviewModifier: ViewModifier {
         
             .overlay(alignment: isHidden ? .bottomTrailing : .center, content: {
                 ModesView(params: modeParameters(), isHidden: $isHidden)
+                    .preferredColorScheme(colorScheme)
             })
         
             .onAppear {
