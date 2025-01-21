@@ -17,8 +17,10 @@ public struct PreviewModifier: ViewModifier {
     // Accessibility
     @Environment(\.accessibilityEnabled) private var accessibilityEnabled: Bool
     
-    @State private var isHidden = true
+    @State private var isHidden = true // hide in small icon
     @State private var parameters = EnvironmentValues()
+    @Binding var isVisible: Bool // visibility in overlay
+    
     let onChange: ((EnvironmentValues.Diff) -> Void)?
     
     public func body(content: Content) -> some View {
@@ -29,8 +31,10 @@ public struct PreviewModifier: ViewModifier {
             .environment(\.accessibilityEnabled, parameters.accessibilityEnabled)
         
             .overlay(alignment: isHidden ? .bottomTrailing : .center, content: {
-                ModesView(params: modeParameters(), isHidden: $isHidden)
-                    .preferredColorScheme(colorScheme)
+                if isVisible {
+                    ModesView(params: modeParameters(), isHidden: $isHidden)
+                        .preferredColorScheme(colorScheme)
+                }
             })
         
             .onAppear {

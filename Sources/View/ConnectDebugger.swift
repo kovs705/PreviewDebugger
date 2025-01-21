@@ -10,7 +10,9 @@ import SwiftUI
 
 public extension View {
     func connectDebugger(
-        onChange: ((EnvironmentValues.Diff) -> Void)? = nil) -> some View {
-            modifier(PreviewModifier(onChange: onChange))
+        isVisible: Binding<Bool> = .constant(true),
+        onChange: ((EnvironmentValues.Diff) -> Void)? = nil
+    ) -> some View {
+        modifier(PreviewModifier(isVisible: isVisible, onChange: onChange))
         }
 }
