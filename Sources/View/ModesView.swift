@@ -135,12 +135,32 @@ struct ModesView: View {
     @ViewBuilder var screenshotter: some View {
         HStack {
             Button(action: {
-                
+                takeScreenshot()
             }, label: {
                 Text("Take a screenshot")
             })
         }
     }
+    
+#if !os(macOS)
+    private func takeScreenshot() {
+        // Trying to take the current window of the active scene
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first(where: { $0.isKeyWindow }) {
+            let image = window.snapshot()
+            // Saving image to the album
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            Haptic.successFeedback()
+        } else {
+            Haptic.errorFeedback()
+        }
+    }
+#else
+    private func takeScreenshot() {
+        // TODO: - Different realizaiton on macOS
+        print("Screenshot not supported on macOS")
+    }
+#endif
     
 }
 

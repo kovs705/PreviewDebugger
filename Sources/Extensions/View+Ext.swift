@@ -1,5 +1,5 @@
 //
-//  SwiftUIView.swift
+//  View+Ext.swift
 //  PreviewDebugger
 //
 //  Created by Eugene Kovs on 02.05.2024.
