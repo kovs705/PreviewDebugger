@@ -45,7 +45,7 @@ struct ModesView: View {
             VStack {
                 hideButton
                 themeToggler
-//                localesSelector
+                localesSelector
                 sizeSlider
                 directionToggle
                 accessibilityToggler
@@ -93,8 +93,10 @@ struct ModesView: View {
             })) {
                 ForEach(params.locales, id: \.identifier) { locale in
                     Text(locale.identifier)
+                        .tag(locale)  // Добавляем тег для каждого элемента
                 }
-            }.pickerStyle(.segmented)
+            }
+            .pickerStyle(.segmented)
         }
     }
     

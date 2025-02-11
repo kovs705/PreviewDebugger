@@ -14,6 +14,7 @@ public struct PreviewModifier: ViewModifier {
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @Environment(\.dynamicTypeSize) private var dynamicSize: DynamicTypeSize
     @Environment(\.layoutDirection) private var layoutDirection: LayoutDirection
+    @Environment(\.locale) private var locale: Locale
     // Accessibility
     @Environment(\.accessibilityEnabled) private var accessibilityEnabled: Bool
     
@@ -29,7 +30,7 @@ public struct PreviewModifier: ViewModifier {
             .environment(\.dynamicTypeSize, parameters.dynamicTypeSize)
             .environment(\.layoutDirection, parameters.layoutDirection)
             .environment(\.accessibilityEnabled, parameters.accessibilityEnabled)
-        
+            .environment(\.locale, parameters.locale)
             .overlay(alignment: isHidden ? .bottomTrailing : .center, content: {
                 if isVisible {
                     ModesView(params: modeParameters(), isHidden: $isHidden)
@@ -43,6 +44,7 @@ public struct PreviewModifier: ViewModifier {
     }
     
     private func updateValuesFromEnvironment() {
+        parameters.locale = EnvironmentValues.currentLocale ?? locale
         parameters.colorScheme = colorScheme
         parameters.dynamicTypeSize = dynamicSize
         parameters.layoutDirection = layoutDirection
@@ -50,22 +52,24 @@ public struct PreviewModifier: ViewModifier {
     }
     
     private func modeParameters() -> ModeParameters {
-        return ModeParameters(locales: [],
-                              locale: $parameters.locale.onChange({ _ in
-            self.onChange?(.locale)
-        }),
-                              colorScheme: $parameters.colorScheme.onChange({ _ in
-            self.onChange?(.colorScheme)
-        }),
-                              textSize: $parameters.dynamicTypeSize.onChange({ _ in
-            self.onChange?(.dynamicSize)
-        }),
-                              layoutDirection: $parameters.layoutDirection.onChange({ _ in
-            self.onChange?(.layoutDirection)
-        }),
-                              accessibilityEnabled: $parameters.accessibilityEnabled.onChange({ _ in
-            self.onChange?(.accessibilityEnabled)
-        }))
+        return ModeParameters(
+            locales: EnvironmentValues.supportedLocales,
+            locale: $parameters.locale.onChange({ _ in
+                self.onChange?(.locale)
+            }),
+            colorScheme: $parameters.colorScheme.onChange({ _ in
+                self.onChange?(.colorScheme)
+            }),
+            textSize: $parameters.dynamicTypeSize.onChange({ _ in
+                self.onChange?(.dynamicSize)
+            }),
+            layoutDirection: $parameters.layoutDirection.onChange({ _ in
+                self.onChange?(.layoutDirection)
+            }),
+            accessibilityEnabled: $parameters.accessibilityEnabled.onChange({ _ in
+                self.onChange?(.accessibilityEnabled)
+            })
+        )
     }
     
 }

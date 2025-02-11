@@ -14,11 +14,11 @@ struct SwiftUIView: View {
             ScrollView {
                 Text("This is a test view screen")
             }
-            .navigationTitle("Test view title")
+            .navigationTitle(String(localized: "title"))
         }
     }
     
-    @ViewBuilder func navigationWrapper<Content: View>(_ content: @escaping () -> Content) -> some View {
+    @ViewBuilder private func navigationWrapper<Content: View>(_ content: @escaping () -> Content) -> some View {
         if #available(iOS 16.0, *) {
             NavigationStack {
                 content()
