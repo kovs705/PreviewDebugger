@@ -17,5 +17,5 @@ There are features like:
  ## Requirements
  - SwiftUI iOS 15+
  - iOS & iPadOS only (MacOS in progress)
- - `For taking screenshots`, app should has <NSPhotoLibraryAddUsageDescription> permission
+ - `For taking screenshots`, app should has `NSPhotoLibraryAddUsageDescription` permission
 
