@@ -1,7 +1,12 @@
-#  Preview debugger
-
-## Description
-Library for debugging views in SwiftUI environment. Implement easily in previews or app directly, using `connectDebugger` method on your view.
+<div align="center">
+  <img width="300" height="300" src="/Resources/Preview Debugger.png" alt="LogOutLoud Logo">
+  <h1><b>Preview debugger</b></h1>
+  <p>
+    Library for debugging views in SwiftUI environment. Implement easily in previews or app directly, using connectDebugger method on your view.
+    <br>
+    <i>Compatible with iOS 15.0 and later</i>
+  </p>
+</div>
 
 ## Features
 There are features like:
