@@ -33,7 +33,7 @@ There are features like:
  - Use `main` branch for the latest features
 
  ## Usage
- - Use extension View `connectDebugger(_ isVisible:Bool)` method on your parent view to see the instrument on screen 
+ - Use extension View `connectDebugger(isVisible: Binding<Bool> = .constant(true)` method on your parent view to see the instrument on screen 
  
  ## Requirements
  - SwiftUI iOS 15+
