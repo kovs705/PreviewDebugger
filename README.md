@@ -34,9 +34,10 @@ There are features like:
 
  ## Usage
  - Use extension View `connectDebugger(isVisible: Binding<Bool> = .constant(true)` method on your parent view to see the instrument on screen 
+ - Best to use inside #Preview canvas environment!
  
  ## Requirements
  - SwiftUI iOS 15+
  - iOS & iPadOS only (MacOS in progress)
- - `For taking screenshots`, app should has `NSPhotoLibraryAddUsageDescription` permission
+ - `For taking screenshots`, app should has `NSPhotoLibraryAddUsageDescription` permission in plist file
 
