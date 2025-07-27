@@ -31,6 +31,9 @@ There are features like:
  ## Instalation
  - Add package dependency through Xcode using SPM
  - Use `main` branch for the latest features
+
+ ## Usage
+ - Use extension View `connectDebugger(_ isVisible:Bool)` method on your parent view to see the instrument on screen 
  
  ## Requirements
  - SwiftUI iOS 15+
