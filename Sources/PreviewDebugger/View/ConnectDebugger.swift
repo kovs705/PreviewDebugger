@@ -14,5 +14,5 @@ public extension View {
         onChange: ((EnvironmentValues.Diff) -> Void)? = nil
     ) -> some View {
         modifier(PreviewModifier(isVisible: isVisible, onChange: onChange))
-        }
+    }
 }
