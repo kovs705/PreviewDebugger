@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import WatchdogSupport
 
 /// During app startup or wherever you need to start tracking potential main thread blocking, you can start and stop the shared watchdog
 ///

@@ -6,6 +6,9 @@
 //  https://github.com/kovs705
 //
 
+#if os(macOS)
+import AppKit
+#endif
 import SwiftUI
 
 struct ModesView: View {
@@ -71,7 +74,11 @@ struct ModesView: View {
             } label: {
                 Image(systemName: "xmark")
                     .padding(5)
+#if os(iOS)
                     .background(Circle().fill(Color(uiColor: .systemBackground)))
+#elseif os(macOS)
+                    .background(Circle().fill(Color(nsColor: .windowBackgroundColor)))
+#endif
             }
         }
     }
