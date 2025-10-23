@@ -20,6 +20,8 @@ public struct PreviewModifier: ViewModifier {
     
     @State private var isHidden = true // hide in small icon
     @State private var parameters = EnvironmentValues()
+    @State private var isMainThreadMonitorEnabled = false
+    @StateObject private var monitorViewModel = MainThreadMonitorViewModel()
     @Binding var isVisible: Bool // visibility in overlay
     
     let onChange: ((EnvironmentValues.Diff) -> Void)?
@@ -37,9 +39,25 @@ public struct PreviewModifier: ViewModifier {
                         .preferredColorScheme(colorScheme)
                 }
             })
+            .overlay(alignment: .bottomLeading) {
+                if isMainThreadMonitorEnabled {
+                    MainThreadMonitorCard(status: monitorViewModel.status)
+                        .padding(.leading, 40)
+                        .padding(.bottom, 40)
+                }
+            }
         
             .onAppear {
                 updateValuesFromEnvironment()
+                if isMainThreadMonitorEnabled {
+                    monitorViewModel.startMonitoring()
+                }
+            }
+            .onDisappear {
+                monitorViewModel.stopMonitoring()
+            }
+            .onChange(of: isMainThreadMonitorEnabled) { isEnabled in
+                handleMainThreadMonitorChange(isEnabled)
             }
     }
     
@@ -68,8 +86,17 @@ public struct PreviewModifier: ViewModifier {
             }),
             accessibilityEnabled: $parameters.accessibilityEnabled.onChange({ _ in
                 self.onChange?(.accessibilityEnabled)
-            })
+            }),
+            mainThreadMonitorEnabled: $isMainThreadMonitorEnabled
         )
     }
-    
+
+    private func handleMainThreadMonitorChange(_ isEnabled: Bool) {
+        if isEnabled {
+            monitorViewModel.startMonitoring()
+        } else {
+            monitorViewModel.stopMonitoring()
+        }
+    }
+
 }

@@ -24,6 +24,15 @@ final public class Watchdog: NSObject, WatchdogRunLoopObserverDelegate {
 
     private var isStarted = false
 
+    public enum Notifications {
+        public static let didStall = Notification.Name("WatchdogDidStallNotification")
+    }
+
+    public enum UserInfoKey {
+        public static let duration = "WatchdogDurationKey"
+        public static let timestamp = "WatchdogTimestampKey"
+    }
+
     override private init() {
         super.init()
         self.observer.delegate = self
@@ -44,8 +53,10 @@ final public class Watchdog: NSObject, WatchdogRunLoopObserverDelegate {
     }
 
     public func stop() {
+        guard isStarted else { return }
         print("[Watchdog] stopped")
         observer.stop()
+        isStarted = false
     }
 
     // MARK: WatchdogRunLoopObserverDelegate
@@ -55,5 +66,21 @@ final public class Watchdog: NSObject, WatchdogRunLoopObserverDelegate {
         //    - what task is currently running?
         //    - which view controller is currently on screen?
         print("🚫 ⚠️ [Watchdog] main thread blocked for \(duration) seconds")
+        notifyDidStall(duration: duration)
+    }
+
+    private func notifyDidStall(duration: TimeInterval) {
+        let userInfo: [String: Any] = [
+            UserInfoKey.duration: duration,
+            UserInfoKey.timestamp: Date()
+        ]
+
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(
+                name: Notifications.didStall,
+                object: self,
+                userInfo: userInfo
+            )
+        }
     }
 }

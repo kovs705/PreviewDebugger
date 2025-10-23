@@ -52,6 +52,7 @@ struct ModesView: View {
                 sizeSlider
                 directionToggle
                 accessibilityToggler
+                mainThreadMonitorToggle
                 //            invertedColorsToggle
                 //            colorBlindnessToggler
                 screenshotter
@@ -139,6 +140,15 @@ struct ModesView: View {
     @ViewBuilder var accessibilityToggler: some View {
         Toggle("Accessibility", isOn: params.accessibilityEnabled)
     }
+
+    @ViewBuilder var mainThreadMonitorToggle: some View {
+        Toggle(
+            "Main thread monitor",
+            isOn: params.mainThreadMonitorEnabled.onChange({ _ in
+                Haptic.toggleFeedback()
+            })
+        )
+    }
     
     // MARK: - Screenshot
     @ViewBuilder var screenshotter: some View {
@@ -186,7 +196,8 @@ struct ModesView: View {
                                colorScheme: Binding<ColorScheme>(wrappedValue: .light),
                                textSize: Binding<DynamicTypeSize>(wrappedValue: .medium),
                                layoutDirection: Binding<LayoutDirection>(wrappedValue: .leftToRight),
-                               accessibilityEnabled: Binding<Bool>(wrappedValue: false)),
+                               accessibilityEnabled: Binding<Bool>(wrappedValue: false),
+                               mainThreadMonitorEnabled: Binding<Bool>(wrappedValue: false)),
               isHidden: Binding<Bool>(wrappedValue: false))
 }
 #endif

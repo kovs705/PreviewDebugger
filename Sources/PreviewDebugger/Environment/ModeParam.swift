@@ -23,4 +23,7 @@ struct ModeParameters {
     
     // Accessibility
     let accessibilityEnabled: Binding<Bool>
+
+    // Debugging
+    let mainThreadMonitorEnabled: Binding<Bool>
 }
