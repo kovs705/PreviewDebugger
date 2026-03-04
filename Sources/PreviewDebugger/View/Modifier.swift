@@ -7,6 +7,9 @@
 //
 
 import SwiftUI
+#if canImport(UIKit) && !os(macOS)
+import UIKit
+#endif
 
 public struct PreviewModifier: ViewModifier {
     
@@ -75,7 +78,8 @@ public struct PreviewModifier: ViewModifier {
             locale: $parameters.locale.onChange({ _ in
                 self.onChange?(.locale)
             }),
-            colorScheme: $parameters.colorScheme.onChange({ _ in
+            colorScheme: $parameters.colorScheme.onChange({ newScheme in
+                applyColorSchemeToApplication(newScheme)
                 self.onChange?(.colorScheme)
             }),
             textSize: $parameters.dynamicTypeSize.onChange({ _ in
@@ -97,6 +101,16 @@ public struct PreviewModifier: ViewModifier {
         } else {
             monitorViewModel.stopMonitoring()
         }
+    }
+
+    private func applyColorSchemeToApplication(_ colorScheme: ColorScheme) {
+#if canImport(UIKit) && !os(macOS)
+        let style: UIUserInterfaceStyle = colorScheme == .dark ? .dark : .light
+        UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .flatMap({ $0.windows })
+            .forEach({ $0.overrideUserInterfaceStyle = style })
+#endif
     }
 
 }
