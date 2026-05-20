@@ -18,11 +18,8 @@ public struct PreviewModifier: ViewModifier {
     @Environment(\.dynamicTypeSize) private var dynamicSize: DynamicTypeSize
     @Environment(\.layoutDirection) private var layoutDirection: LayoutDirection
     @Environment(\.locale) private var locale: Locale
-    // Accessibility
-    @Environment(\.accessibilityEnabled) private var accessibilityEnabled: Bool
-    
     @State private var isHidden = true // hide in small icon
-    @State private var parameters = EnvironmentValues()
+    @State private var parameters = PreviewModifier.defaultParameters()
     @State private var isMainThreadMonitorEnabled = false
     @StateObject private var monitorViewModel = MainThreadMonitorViewModel()
     @Binding var isVisible: Bool // visibility in overlay
@@ -69,7 +66,13 @@ public struct PreviewModifier: ViewModifier {
         parameters.colorScheme = colorScheme
         parameters.dynamicTypeSize = dynamicSize
         parameters.layoutDirection = layoutDirection
-        parameters.accessibilityEnabled = accessibilityEnabled
+        parameters.accessibilityEnabled = true
+    }
+
+    static func defaultParameters() -> EnvironmentValues {
+        var parameters = EnvironmentValues()
+        parameters.accessibilityEnabled = true
+        return parameters
     }
     
     private func modeParameters() -> ModeParameters {

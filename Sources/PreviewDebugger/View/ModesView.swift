@@ -196,7 +196,7 @@ struct ModesView: View {
                                colorScheme: Binding<ColorScheme>(wrappedValue: .light),
                                textSize: Binding<DynamicTypeSize>(wrappedValue: .medium),
                                layoutDirection: Binding<LayoutDirection>(wrappedValue: .leftToRight),
-                               accessibilityEnabled: Binding<Bool>(wrappedValue: false),
+                               accessibilityEnabled: Binding<Bool>(wrappedValue: true),
                                mainThreadMonitorEnabled: Binding<Bool>(wrappedValue: false)),
               isHidden: Binding<Bool>(wrappedValue: false))
 }

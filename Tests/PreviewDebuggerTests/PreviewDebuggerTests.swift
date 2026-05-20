@@ -2,11 +2,9 @@ import XCTest
 @testable import PreviewDebugger
 
 final class PreviewDebuggerTests: XCTestCase {
-    func testExample() throws {
-        // XCTest Documentation
-        // https://developer.apple.com/documentation/xctest
+    func testPreviewModifierEnablesAccessibilityByDefault() throws {
+        let defaults = PreviewModifier.defaultParameters()
 
-        // Defining Test Cases and Test Methods
-        // https://developer.apple.com/documentation/xctest/defining_test_cases_and_test_methods
+        XCTAssertTrue(defaults.accessibilityEnabled)
     }
 }
