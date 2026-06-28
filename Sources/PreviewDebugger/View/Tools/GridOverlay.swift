@@ -22,7 +22,6 @@ struct GridOverlay: View {
     var body: some View {
         Canvas { context, size in
             drawLines(in: &context, size: size)
-            drawCenter(in: &context, size: size)
         }
         .allowsHitTesting(false)
         .accessibilityHidden(true)
@@ -70,13 +69,6 @@ struct GridOverlay: View {
             y += spacing
             index += 1
         }
-    }
-
-    private func drawCenter(in context: inout GraphicsContext, size: CGSize) {
-        var path = Path()
-        path.addLines([CGPoint(x: size.width / 2, y: 0), CGPoint(x: size.width / 2, y: size.height)])
-        path.addLines([CGPoint(x: 0, y: size.height / 2), CGPoint(x: size.width, y: size.height / 2)])
-        context.stroke(path, with: .color(tint.opacity(0.7)), lineWidth: 1)
     }
 }
 

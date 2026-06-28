@@ -18,7 +18,6 @@ struct ModesView: View {
     @Namespace private var nspace
 
     @State private var dragOffset: CGSize = .zero
-    @GestureState private var activeDrag: CGSize = .zero
 
     private static let tintPresets: [Color] = [
         .blue, .purple, .pink, .red, .orange, .yellow, .green, .teal
@@ -33,14 +32,17 @@ struct ModesView: View {
                 expandedPanel
             }
         }
-        .offset(x: dragOffset.width + activeDrag.width,
-                y: dragOffset.height + activeDrag.height)
+        // A single, isolated drag interaction shared by both states, so the
+        // helper is draggable whether collapsed or expanded. The gesture state
+        // lives in the modifier, keeping `ModesView.body` off the drag path.
+        .movable(offset: $dragOffset)
     }
 
     // MARK: - Collapsed
     private var collapsedButton: some View {
         Button {
             withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                dragOffset = .zero
                 isHidden = false
             }
         } label: {
@@ -95,23 +97,16 @@ struct ModesView: View {
     }
 
     private var dragHandle: some View {
+        // Visual affordance only — the whole panel is draggable via `.movable`,
+        // with the surrounding chrome (handle, header, padding) acting as the
+        // grab area while the inner `ScrollView` keeps scrolling normally.
         Capsule()
             .fill(Color.secondary.opacity(0.4))
             .frame(width: 36, height: 5)
             .padding(.top, 10)
             .padding(.bottom, 4)
             .frame(maxWidth: .infinity)
-            .contentShape(Rectangle())
-            .gesture(
-                DragGesture()
-                    .updating($activeDrag) { value, state, _ in
-                        state = value.translation
-                    }
-                    .onEnded { value in
-                        dragOffset.width += value.translation.width
-                        dragOffset.height += value.translation.height
-                    }
-            )
+            .accessibilityHidden(true)
     }
 
     private var header: some View {
@@ -128,6 +123,7 @@ struct ModesView: View {
 
             Button {
                 withAnimation(.spring(response: 0.35, dampingFraction: 0.8)) {
+                    dragOffset = .zero
                     isHidden = true
                 }
             } label: {
