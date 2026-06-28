@@ -39,19 +39,6 @@
   </tr>
 </table>
 
-**Why you'll love it:**
-
-- 🌗 **Light or dark, instantly** — catch contrast bugs before your users do.
-- 🌐 **Speak every language** — jump between locales and proofread your UI in seconds.
-- 🔠 **Big text won't break you** — drag a slider and watch your layout survive Dynamic Type.
-- ↔️ **Right-to-left, done right** — mirror the whole layout with one toggle.
-- 🎨 **Try on any tint** — preview your brand color live, no rebuild required.
-- ♿️ **Accessible by default** — switch on accessibility and ship for everyone.
-- ▦ **Precision grid** — align to the pixel with a major/minor overlay.
-- 📐 **Layout guides** — safe area, thirds &amp; centre, always on tap.
-- ⏱️ **Catch the hangs** — the main-thread watchdog flags UI stalls the moment they happen.
-- 📸 **Snap &amp; share** — capture the canvas straight to your photo library.
-
 ## Overview
 
 Preview Debugger is a lightweight SwiftUI overlay that lets you exercise your views under different environment conditions without leaving the canvas. Attach a single modifier to any view and a floating control panel appears, letting you flip the color scheme, change the locale, scale Dynamic Type, swap layout direction, toggle accessibility, watch the main thread for stalls, and capture a screenshot — all in real time. It is designed to live inside a `#Preview`, so you can validate light/dark, RTL, large text, and localization in seconds.
