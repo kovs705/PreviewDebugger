@@ -11,8 +11,11 @@ import SwiftUI
 /// A non-interactive overlay that visualises layout references: the safe-area
 /// inset rectangle, the rule-of-thirds lines and the centre cross-hair.
 ///
-/// Handy for verifying that content respects the safe area and sits where you
-/// expect relative to the screen.
+/// The geometry is read from a `GeometryReader` that *respects* the safe area
+/// (so the real insets are known), then the drawing canvas is expanded by those
+/// insets and offset back to the screen origin. This lets the guides bleed to
+/// the physical screen edges while still drawing the safe-area rectangle in the
+/// correct place.
 struct LayoutGuidesOverlay: View {
 
     var tint: Color = .pink
@@ -20,52 +23,59 @@ struct LayoutGuidesOverlay: View {
     var body: some View {
         GeometryReader { proxy in
             let insets = proxy.safeAreaInsets
-            let full = proxy.frame(in: .local)
-            let safe = CGRect(
-                x: full.minX + insets.leading,
-                y: full.minY + insets.top,
-                width: max(0, full.width - insets.leading - insets.trailing),
-                height: max(0, full.height - insets.top - insets.bottom)
+            let fullWidth = proxy.size.width + insets.leading + insets.trailing
+            let fullHeight = proxy.size.height + insets.top + insets.bottom
+            let safeRect = CGRect(
+                x: insets.leading,
+                y: insets.top,
+                width: proxy.size.width,
+                height: proxy.size.height
             )
 
-            ZStack {
-                thirds(in: full)
-                safeArea(safe)
-                center(in: full)
+            Canvas { context, size in
+                drawThirds(in: &context, size: size)
+                drawSafeArea(in: &context, rect: safeRect)
+                drawCenter(in: &context, size: size)
             }
-            .ignoresSafeArea()
+            .frame(width: fullWidth, height: fullHeight)
+            .offset(x: -insets.leading, y: -insets.top)
         }
         .allowsHitTesting(false)
         .accessibilityHidden(true)
     }
 
-    private func safeArea(_ rect: CGRect) -> some View {
-        Rectangle()
-            .path(in: rect)
-            .stroke(tint.opacity(0.9), style: StrokeStyle(lineWidth: 1, dash: [4, 3]))
+    private func drawSafeArea(in context: inout GraphicsContext, rect: CGRect) {
+        let path = Path { $0.addRect(rect) }
+        context.stroke(
+            path,
+            with: .color(tint.opacity(0.9)),
+            style: StrokeStyle(lineWidth: 1, dash: [4, 3])
+        )
     }
 
-    private func thirds(in rect: CGRect) -> some View {
-        Path { path in
-            for fraction in [1.0 / 3.0, 2.0 / 3.0] {
-                let x = rect.width * fraction
-                let y = rect.height * fraction
-                path.addLines([CGPoint(x: x, y: 0), CGPoint(x: x, y: rect.height)])
-                path.addLines([CGPoint(x: 0, y: y), CGPoint(x: rect.width, y: y)])
-            }
+    private func drawThirds(in context: inout GraphicsContext, size: CGSize) {
+        var path = Path()
+        for fraction in [1.0 / 3.0, 2.0 / 3.0] {
+            let x = size.width * fraction
+            let y = size.height * fraction
+            path.move(to: CGPoint(x: x, y: 0))
+            path.addLine(to: CGPoint(x: x, y: size.height))
+            path.move(to: CGPoint(x: 0, y: y))
+            path.addLine(to: CGPoint(x: size.width, y: y))
         }
-        .stroke(tint.opacity(0.35), lineWidth: 0.5)
+        context.stroke(path, with: .color(tint.opacity(0.35)), lineWidth: 0.5)
     }
 
-    private func center(in rect: CGRect) -> some View {
-        Path { path in
-            let length: CGFloat = 12
-            let cx = rect.width / 2
-            let cy = rect.height / 2
-            path.addLines([CGPoint(x: cx - length, y: cy), CGPoint(x: cx + length, y: cy)])
-            path.addLines([CGPoint(x: cx, y: cy - length), CGPoint(x: cx, y: cy + length)])
-        }
-        .stroke(tint, lineWidth: 1.5)
+    private func drawCenter(in context: inout GraphicsContext, size: CGSize) {
+        let centerX = size.width / 2
+        let centerY = size.height / 2
+        let length: CGFloat = 12
+        var path = Path()
+        path.move(to: CGPoint(x: centerX - length, y: centerY))
+        path.addLine(to: CGPoint(x: centerX + length, y: centerY))
+        path.move(to: CGPoint(x: centerX, y: centerY - length))
+        path.addLine(to: CGPoint(x: centerX, y: centerY + length))
+        context.stroke(path, with: .color(tint), lineWidth: 1.5)
     }
 }
 

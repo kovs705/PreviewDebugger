@@ -38,7 +38,16 @@ public struct PreviewModifier: ViewModifier {
             .environment(\.accessibilityEnabled, parameters.accessibilityEnabled)
             .environment(\.locale, parameters.locale)
             .tint(tintColor)
-            .overlay { toolsOverlay }
+            .overlay {
+                if isGridEnabled {
+                    GridOverlay().ignoresSafeArea()
+                }
+            }
+            .overlay {
+                if isLayoutGuidesEnabled {
+                    LayoutGuidesOverlay()
+                }
+            }
             .overlay(alignment: isHidden ? .bottomTrailing : .center) {
                 if isVisible {
                     ModesView(params: modeParameters(), isHidden: $isHidden)
@@ -64,17 +73,6 @@ public struct PreviewModifier: ViewModifier {
             .onChange(of: isMainThreadMonitorEnabled) { isEnabled in
                 handleMainThreadMonitorChange(isEnabled)
             }
-    }
-
-    @ViewBuilder private var toolsOverlay: some View {
-        ZStack {
-            if isGridEnabled {
-                GridOverlay()
-            }
-            if isLayoutGuidesEnabled {
-                LayoutGuidesOverlay()
-            }
-        }
     }
 
     private func updateValuesFromEnvironment() {
