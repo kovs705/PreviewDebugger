@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "PreviewDebugger",
+    defaultLocalization: "en",
     platforms: [
         .iOS(.v15),
         .macOS(.v13)
@@ -25,7 +26,10 @@ let package = Package(
         ),
         .target(
             name: "PreviewDebugger",
-            dependencies: ["WatchdogSupport"]
+            dependencies: ["WatchdogSupport"],
+            resources: [
+                .process("Resources")
+            ]
         ),
         .testTarget(
             name: "PreviewDebuggerTests",

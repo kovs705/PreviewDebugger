@@ -1,0 +1,24 @@
+/* PreviewDebugger panel — Russian */
+
+"UI Helper" = "Помощник UI";
+
+/* Section titles */
+"Appearance" = "Внешний вид";
+"Localization" = "Локализация";
+"Typography" = "Типографика";
+"Layout" = "Макет";
+"Accessibility" = "Доступность";
+"Diagnostics" = "Диагностика";
+"Actions" = "Действия";
+
+/* Rows */
+"Dark mode" = "Тёмная тема";
+"Tint color" = "Акцентный цвет";
+"Locale" = "Язык";
+"Font size" = "Размер шрифта";
+"Right-to-left" = "Справа налево";
+"Pixel grid" = "Сетка";
+"Layout guides" = "Направляющие";
+"Main thread monitor" = "Монитор главного потока";
+"Take a screenshot" = "Сделать снимок экрана";
+"Reset all" = "Сбросить всё";

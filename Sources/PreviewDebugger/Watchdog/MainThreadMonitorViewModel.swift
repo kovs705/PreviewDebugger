@@ -49,6 +49,15 @@ final class MainThreadMonitorViewModel: ObservableObject {
 
     @Published private(set) var status: Status = .healthy
 
+    /// A rolling history of the most recent stall events, newest first.
+    @Published private(set) var recentStalls: [StallEvent] = []
+
+    /// The total number of stall events observed since monitoring began.
+    @Published private(set) var stallCount: Int = 0
+
+    /// The maximum number of events retained in `recentStalls`.
+    private let historyLimit = 10
+
     private let resetInterval: TimeInterval = 6
     private var resetItem: DispatchWorkItem?
     private var notificationObserver: NSObjectProtocol?
@@ -100,7 +109,13 @@ final class MainThreadMonitorViewModel: ObservableObject {
     }
 
     private func handleStall(duration: TimeInterval, timestamp: Date) {
-        status = .stalled(.init(duration: duration, timestamp: timestamp))
+        let event = StallEvent(duration: duration, timestamp: timestamp)
+        status = .stalled(event)
+        stallCount += 1
+        recentStalls.insert(event, at: 0)
+        if recentStalls.count > historyLimit {
+            recentStalls.removeLast(recentStalls.count - historyLimit)
+        }
         scheduleReset()
     }
 

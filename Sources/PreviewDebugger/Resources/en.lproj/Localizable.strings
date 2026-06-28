@@ -1,0 +1,24 @@
+/* PreviewDebugger panel — English (base) */
+
+"UI Helper" = "UI Helper";
+
+/* Section titles */
+"Appearance" = "Appearance";
+"Localization" = "Localization";
+"Typography" = "Typography";
+"Layout" = "Layout";
+"Accessibility" = "Accessibility";
+"Diagnostics" = "Diagnostics";
+"Actions" = "Actions";
+
+/* Rows */
+"Dark mode" = "Dark mode";
+"Tint color" = "Tint color";
+"Locale" = "Locale";
+"Font size" = "Font size";
+"Right-to-left" = "Right-to-left";
+"Pixel grid" = "Pixel grid";
+"Layout guides" = "Layout guides";
+"Main thread monitor" = "Main thread monitor";
+"Take a screenshot" = "Take a screenshot";
+"Reset all" = "Reset all";

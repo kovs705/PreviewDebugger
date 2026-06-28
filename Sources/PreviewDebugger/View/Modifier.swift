@@ -12,20 +12,24 @@ import UIKit
 #endif
 
 public struct PreviewModifier: ViewModifier {
-    
+
     // UI
     @Environment(\.colorScheme) private var colorScheme: ColorScheme
     @Environment(\.dynamicTypeSize) private var dynamicSize: DynamicTypeSize
     @Environment(\.layoutDirection) private var layoutDirection: LayoutDirection
     @Environment(\.locale) private var locale: Locale
+
     @State private var isHidden = true // hide in small icon
     @State private var parameters = PreviewModifier.defaultParameters()
+    @State private var tintColor: Color?
     @State private var isMainThreadMonitorEnabled = false
+    @State private var isGridEnabled = false
+    @State private var isLayoutGuidesEnabled = false
     @StateObject private var monitorViewModel = MainThreadMonitorViewModel()
     @Binding var isVisible: Bool // visibility in overlay
-    
+
     let onChange: ((EnvironmentValues.Diff) -> Void)?
-    
+
     public func body(content: Content) -> some View {
         content
             .environment(\.colorScheme, parameters.colorScheme)
@@ -33,12 +37,14 @@ public struct PreviewModifier: ViewModifier {
             .environment(\.layoutDirection, parameters.layoutDirection)
             .environment(\.accessibilityEnabled, parameters.accessibilityEnabled)
             .environment(\.locale, parameters.locale)
-            .overlay(alignment: isHidden ? .bottomTrailing : .center, content: {
+            .tint(tintColor)
+            .overlay { toolsOverlay }
+            .overlay(alignment: isHidden ? .bottomTrailing : .center) {
                 if isVisible {
                     ModesView(params: modeParameters(), isHidden: $isHidden)
                         .preferredColorScheme(colorScheme)
                 }
-            })
+            }
             .overlay(alignment: .bottomLeading) {
                 if isMainThreadMonitorEnabled {
                     MainThreadMonitorCard(status: monitorViewModel.status)
@@ -46,7 +52,6 @@ public struct PreviewModifier: ViewModifier {
                         .padding(.bottom, 40)
                 }
             }
-        
             .onAppear {
                 updateValuesFromEnvironment()
                 if isMainThreadMonitorEnabled {
@@ -60,7 +65,18 @@ public struct PreviewModifier: ViewModifier {
                 handleMainThreadMonitorChange(isEnabled)
             }
     }
-    
+
+    @ViewBuilder private var toolsOverlay: some View {
+        ZStack {
+            if isGridEnabled {
+                GridOverlay()
+            }
+            if isLayoutGuidesEnabled {
+                LayoutGuidesOverlay()
+            }
+        }
+    }
+
     private func updateValuesFromEnvironment() {
         parameters.locale = EnvironmentValues.currentLocale ?? locale
         parameters.colorScheme = colorScheme
@@ -74,7 +90,7 @@ public struct PreviewModifier: ViewModifier {
         parameters.accessibilityEnabled = true
         return parameters
     }
-    
+
     private func modeParameters() -> ModeParameters {
         return ModeParameters(
             locales: EnvironmentValues.supportedLocales,
@@ -91,10 +107,15 @@ public struct PreviewModifier: ViewModifier {
             layoutDirection: $parameters.layoutDirection.onChange({ _ in
                 self.onChange?(.layoutDirection)
             }),
+            tint: $tintColor,
             accessibilityEnabled: $parameters.accessibilityEnabled.onChange({ _ in
                 self.onChange?(.accessibilityEnabled)
             }),
-            mainThreadMonitorEnabled: $isMainThreadMonitorEnabled
+            mainThreadMonitorEnabled: $isMainThreadMonitorEnabled,
+            gridEnabled: $isGridEnabled,
+            layoutGuidesEnabled: $isLayoutGuidesEnabled,
+            onReset: resetAll,
+            onScreenshot: takeScreenshot
         )
     }
 
@@ -106,6 +127,18 @@ public struct PreviewModifier: ViewModifier {
         }
     }
 
+    private func resetAll() {
+        withAnimation(.easeInOut) {
+            updateValuesFromEnvironment()
+            tintColor = nil
+            isGridEnabled = false
+            isLayoutGuidesEnabled = false
+            isMainThreadMonitorEnabled = false
+        }
+        applyColorSchemeToApplication(parameters.colorScheme)
+        Haptic.successFeedback()
+    }
+
     private func applyColorSchemeToApplication(_ colorScheme: ColorScheme) {
 #if canImport(UIKit) && !os(macOS)
         let style: UIUserInterfaceStyle = colorScheme == .dark ? .dark : .light
@@ -115,5 +148,22 @@ public struct PreviewModifier: ViewModifier {
             .forEach({ $0.overrideUserInterfaceStyle = style })
 #endif
     }
+
+#if canImport(UIKit) && !os(macOS)
+    private func takeScreenshot() {
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+           let window = windowScene.windows.first(where: { $0.isKeyWindow }) {
+            let image = window.snapshot()
+            UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
+            Haptic.successFeedback()
+        } else {
+            Haptic.errorFeedback()
+        }
+    }
+#else
+    private func takeScreenshot() {
+        // Screenshot capture is not yet supported on macOS.
+    }
+#endif
 
 }

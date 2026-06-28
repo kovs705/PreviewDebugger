@@ -33,6 +33,15 @@ static const NSTimeInterval DefaultStallingThreshold = 4;
                stallingThreshold:DefaultStallingThreshold];
 }
 
+- (instancetype)initWithStallingThreshold:(NSTimeInterval)threshold {
+    return [self initWithRunLoop:CFRunLoopGetMain()
+               stallingThreshold:threshold];
+}
+
+- (NSTimeInterval)stallingThreshold {
+    return self.threshold;
+}
+
 - (instancetype)initWithRunLoop:(CFRunLoopRef)runLoop
               stallingThreshold:(NSTimeInterval)threshold {
     NSParameterAssert(runLoop != NULL);

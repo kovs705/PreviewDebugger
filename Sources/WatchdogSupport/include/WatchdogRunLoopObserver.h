@@ -21,7 +21,13 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, weak, nullable) id<WatchdogRunLoopObserverDelegate> delegate;
 
+/// The stalling threshold, in seconds, this observer was configured with.
+@property (nonatomic, assign, readonly) NSTimeInterval stallingThreshold;
+
 - (instancetype)init;
+
+/// Convenience initializer that observes the main run loop with the given threshold.
+- (instancetype)initWithStallingThreshold:(NSTimeInterval)threshold;
 
 - (instancetype)initWithRunLoop:(CFRunLoopRef _Nonnull)runLoop stallingThreshold:(NSTimeInterval)threshold NS_DESIGNATED_INITIALIZER;
 
