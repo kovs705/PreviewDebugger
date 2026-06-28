@@ -35,7 +35,9 @@ struct ModesView: View {
         // A single, isolated drag interaction shared by both states, so the
         // helper is draggable whether collapsed or expanded. The gesture state
         // lives in the modifier, keeping `ModesView.body` off the drag path.
-        .movable(offset: $dragOffset)
+        // Collapsed is a Button, so the drag must win over its press; expanded
+        // stays low-priority so the inner ScrollView keeps scrolling.
+        .movable(offset: $dragOffset, winsOverChildren: isHidden)
     }
 
     // MARK: - Collapsed

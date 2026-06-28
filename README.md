@@ -21,6 +21,37 @@
   </a>
 </div>
 
+## Showcase
+
+> **Ship pixel-perfect SwiftUI — without ever leaving the canvas.**
+> One modifier. Every environment. Real time.
+
+<table>
+  <tr>
+    <td width="33%" align="center"><img src="https://raw.githubusercontent.com/kovs705/ScreenshotResources/main/PreviewDebugger/control-panel.png" alt="UI Helper control panel"></td>
+    <td width="33%" align="center"><img src="https://raw.githubusercontent.com/kovs705/ScreenshotResources/main/PreviewDebugger/layout-guides.png" alt="Layout guides overlay"></td>
+    <td width="33%" align="center"><img src="https://raw.githubusercontent.com/kovs705/ScreenshotResources/main/PreviewDebugger/pixel-grid.png" alt="Pixel grid overlay"></td>
+  </tr>
+  <tr>
+    <td align="center"><b>One panel, every mode.</b><br>Dark mode, tint, locale, Dynamic Type &amp; RTL — flip them all from a single floating panel.</td>
+    <td align="center"><b>Nail the layout.</b><br>Safe area, rule-of-thirds &amp; dead-centre guides drawn right over your view.</td>
+    <td align="center"><b>Pixel-perfect, literally.</b><br>A precision grid so every margin, gap &amp; corner lands exactly where you meant it.</td>
+  </tr>
+</table>
+
+**Why you'll love it:**
+
+- 🌗 **Light or dark, instantly** — catch contrast bugs before your users do.
+- 🌐 **Speak every language** — jump between locales and proofread your UI in seconds.
+- 🔠 **Big text won't break you** — drag a slider and watch your layout survive Dynamic Type.
+- ↔️ **Right-to-left, done right** — mirror the whole layout with one toggle.
+- 🎨 **Try on any tint** — preview your brand color live, no rebuild required.
+- ♿️ **Accessible by default** — switch on accessibility and ship for everyone.
+- ▦ **Precision grid** — align to the pixel with a major/minor overlay.
+- 📐 **Layout guides** — safe area, thirds &amp; centre, always on tap.
+- ⏱️ **Catch the hangs** — the main-thread watchdog flags UI stalls the moment they happen.
+- 📸 **Snap &amp; share** — capture the canvas straight to your photo library.
+
 ## Overview
 
 Preview Debugger is a lightweight SwiftUI overlay that lets you exercise your views under different environment conditions without leaving the canvas. Attach a single modifier to any view and a floating control panel appears, letting you flip the color scheme, change the locale, scale Dynamic Type, swap layout direction, toggle accessibility, watch the main thread for stalls, and capture a screenshot — all in real time. It is designed to live inside a `#Preview`, so you can validate light/dark, RTL, large text, and localization in seconds.
@@ -35,7 +66,7 @@ Preview Debugger is a lightweight SwiftUI overlay that lets you exercise your vi
 | ↔️ | Layout direction | Switch between left-to-right and right-to-left `layout direction`. |
 | 🎨 | Tint color | Preview your view under different accent/tint colors on the fly. |
 | ♿️ | Accessibility | Turn on `accessibility` to make sure everyone can use your app. |
-| ▦ | Pixel grid | Overlay an alignment grid with major/minor lines and a centre cross-hair. |
+| ▦ | Pixel grid | Overlay an alignment grid with major/minor lines for pixel-perfect spacing. |
 | 📐 | Layout guides | Visualise the safe area, rule-of-thirds and screen centre. |
 | ⏱️ | Main-thread watchdog | Monitor the main run loop and get notified when it stalls (UI hangs). |
 | 📸 | Screenshot | Capture the current view and save it to the photo library. |
