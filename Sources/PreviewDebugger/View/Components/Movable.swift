@@ -26,6 +26,10 @@ struct Movable: ViewModifier {
 
     func body(content: Content) -> some View {
         content
+            // Publish the drag state so surfaces can shed expensive effects
+            // (e.g. shadows) while moving. This flips at most twice per drag —
+            // on start and end — so it never invalidates the panel per frame.
+            .environment(\.isHelperDragging, translation != .zero)
             // `.offset` is a render-time transform: it moves the layer without
             // re-running layout, so dragging never re-flows the panel.
             .offset(x: offset.width + translation.width,
@@ -52,5 +56,20 @@ extension View {
     /// `offset`. See ``Movable`` for the performance rationale.
     func movable(offset: Binding<CGSize>) -> some View {
         modifier(Movable(offset: offset))
+    }
+}
+
+// MARK: - Drag state environment
+
+private struct HelperDraggingKey: EnvironmentKey {
+    static let defaultValue = false
+}
+
+extension EnvironmentValues {
+    /// `true` while the UI helper is being repositioned. Surfaces read this to
+    /// drop costly, per-frame render effects (shadows, blurs) during a drag.
+    var isHelperDragging: Bool {
+        get { self[HelperDraggingKey.self] }
+        set { self[HelperDraggingKey.self] = newValue }
     }
 }

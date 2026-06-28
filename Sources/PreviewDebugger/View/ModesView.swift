@@ -51,10 +51,7 @@ struct ModesView: View {
                 .foregroundStyle(.primary)
                 .frame(width: 50, height: 50)
                 .background(
-                    Circle()
-                        .fill(.ultraThinMaterial)
-                        .overlay(Circle().stroke(Color.primary.opacity(0.08), lineWidth: 0.5))
-                        .shadow(color: .black.opacity(0.18), radius: 8, y: 4)
+                    DebugSurface(shape: Circle(), shadowRadius: 8, shadowOpacity: 0.18, shadowY: 4)
                 )
         }
         .buttonStyle(.plain)
@@ -84,13 +81,7 @@ struct ModesView: View {
         .frame(maxWidth: 360)
         .frame(maxHeight: 520)
         .background(
-            RoundedRectangle(cornerRadius: 22, style: .continuous)
-                .fill(.ultraThinMaterial)
-                .overlay(
-                    RoundedRectangle(cornerRadius: 22, style: .continuous)
-                        .stroke(Color.primary.opacity(0.08), lineWidth: 0.5)
-                )
-                .shadow(color: .black.opacity(0.22), radius: 18, y: 8)
+            DebugSurface(shape: RoundedRectangle(cornerRadius: 22, style: .continuous))
         )
         .matchedGeometryEffect(id: "panel", in: nspace)
         .padding(24)
